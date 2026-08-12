@@ -1,0 +1,15 @@
+const usermodel=require('../models/User');
+
+const search= async (req, res) => {
+  const q = req.query.q;
+  const users = await usermodel.find({ 
+    $or: [
+      { name: { $regex: q, $options: 'i' } },
+      { email: { $regex: q, $options: 'i' } }
+    ]
+  }).limit(10);
+  res.json(users);
+};
+
+
+module.exports=search
